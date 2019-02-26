@@ -20,21 +20,25 @@
 <script type='text/javascript'>
 function addDashes() {
   var val_in = $("#to_change").val(); 
-  var val_out1 = val_in.replace(/([\w\s\.,&\*])(\n)([\w\.,&])/gi,'$1$2- $3');
-  var val_out2 = val_out1.replace(/(^\n)(- )([\w\s\.,&]+\n$)/gim,'$1$3');
-  $("#to_change").val(val_out2);
-  
-  
-}
+  var val_out = val_in.replace(/•[\t\s]/gi,'- '); // replaces bullet points with hyphen space
+  val_out = val_out.replace(/([\w\s\.,&\*])(\n)([\w\.,&\(\):])/gi,'$1$2- $3'); // adds a hyphen to all lines (except the 1st) starting with alphanum or .,&
+  val_out = val_out.replace(/(^\n)(- )([\w \.,&\(\):-]+\n$)/gim,'$1$3'); // removes lone bullet points from all but the first/last lines
+  val_out = val_out.replace(/(\n\n)(- )([\w \.,&\(\):-]+$)/gi,'$1$3'); // removes lone bullet point from the last line if it's a solo line
+  $("#to_change").val(val_out);
+  }
 </script>
   
 </head>
 
 <body>
 
-<h2>Easily format bullet points for Trello</h2>
+<h2>Trello markdown tool</h2>
 
-<p>Paste the text you want formatted below. Any multiline blocks of text will get a dash added to the start of each line, to make the text appear as a list in Trello.</p>
+<p>Paste the text you want formatted below. You can use this tool to:</p>
+
+<ul>
+<li>Add dashes to the start of any consecutive lines of text, to format as a list in Trello.</li>
+</ul>
 
 <button onclick="addDashes()" class="btn">Add dashes</button>
 
