@@ -24,6 +24,13 @@ function addDashes() {
   val_out = val_out.replace(/([\w\s\.,&\*])(\n)([\w\.,&\(\):])/gi,'$1$2- $3'); // adds a hyphen to all lines (except the 1st) starting with alphanum or .,&
   val_out = val_out.replace(/(^\n)(- )([\w \.,&\(\):-]+\n$)/gim,'$1$3'); // removes lone bullet points from all but the first/last lines
   val_out = val_out.replace(/(\n\n)(- )([\w \.,&\(\):-]+$)/gi,'$1$3'); // removes lone bullet point from the last line if it's a solo line
+  val_out = val_out.replace(/(\n)(- )(\d{1,2}\.?)([\t\s])/gi,'$1$3 '); // removes hyphens from numbered lists
+  $("#to_change").val(val_out);
+  }
+function addAngles() {
+  var val_in = $("#to_change").val(); 
+  var val_out = val_in.replace(/•[\t\s]/gi,'- '); // replaces bullet points with hyphen space
+  val_out = val_out.replace(/^/gm,'> '); // adds a > to the start of every line
   $("#to_change").val(val_out);
   }
 </script>
@@ -38,11 +45,13 @@ function addDashes() {
 
 <ul>
 <li>Add dashes to the start of any consecutive lines of text, to format as a list in Trello.</li>
+<li>Add &gt to the start of text blocks, to format as a blockquote in Trello.</li>
 </ul>
 
 <button onclick="addDashes()" class="btn">Add dashes</button>
+<button onclick="addAngles()" class="btn">Add &gt</button>
 
-<textarea id="to_change" rows="10">This line gets nothing&#013;&#013;This gets a dash&#013;And this does too&#013;&#013;# But this doesn't</textarea>
+<textarea id="to_change" rows="10">In typography, a bullet ( &#x2022; ) is a typographical symbol or glyph used to introduce items in a list. For example:&#013;&#013;&#x2022;&#x9;Item 1&#013;&#x2022;&#x9;Item 2&#013;&#013;Text&#013;&#013;### Header&#013;&#013;1.&#x9;Test1&#013;2.&#x9;Test2&#013;&#013;Text</textarea>
 
 </body>
 </html>
